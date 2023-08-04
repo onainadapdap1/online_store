@@ -9,6 +9,7 @@ import (
 
 type UserRepoInterface interface {
 	RegisterUser(user models.User) (models.User, error)
+	FindByEmail(email string) (models.User, error)
 }
 
 type userRepository struct {
@@ -26,5 +27,14 @@ func (r *userRepository) RegisterUser(user models.User) (models.User, error) {
 		return user, fmt.Errorf("[Register.Insert] Error when query save data with : %w", err)
 	}
 	tx.Commit()
+	return user, nil
+}
+
+func (r *userRepository) FindByEmail(email string) (models.User, error) {
+	tx := r.db.Begin()
+	var user models.User
+	if err := tx.Debug().Where("email = ?", email).Find(&user).Error; err != nil {
+		return user, err
+	}
 	return user, nil
 }

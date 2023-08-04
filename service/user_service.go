@@ -1,13 +1,17 @@
 package service
 
 import (
+	"errors"
+
 	"github.com/onainadapdap1/online_store/dtos"
+	"github.com/onainadapdap1/online_store/helpers"
 	"github.com/onainadapdap1/online_store/models"
 	"github.com/onainadapdap1/online_store/repository"
 )
 
 type UserServiceInterface interface {
 	RegisterUser(input dtos.RegisterUserInput) (models.User, error)
+	LoginUser(input dtos.LoginUserInput) (models.User, error)
 }
 
 type userService struct {
@@ -19,11 +23,11 @@ func NewUserService(repo repository.UserRepoInterface) UserServiceInterface {
 }
 
 func (s *userService) RegisterUser(input dtos.RegisterUserInput) (models.User, error) {
-	user := models.User {
+	user := models.User{
 		FullName: input.FullName,
 		Email:    input.Email,
 		Password: input.Password,
-		Role: "user",
+		Role:     "user",
 	}
 
 	newUser, err := s.repo.RegisterUser(user)
@@ -31,4 +35,24 @@ func (s *userService) RegisterUser(input dtos.RegisterUserInput) (models.User, e
 		return newUser, err
 	}
 	return newUser, nil
+}
+
+func (s *userService) LoginUser(input dtos.LoginUserInput) (models.User, error) {
+	inputEmail := input.Email
+	inputPassword := input.Password
+
+	user, err := s.repo.FindByEmail(inputEmail)
+	if err != nil {
+		return user, err
+	}
+
+	if user.ID == 0 {
+		return user, errors.New("no user found on that email")
+	}
+
+	comparePass := helpers.ComparePassword([]byte(user.Password), []byte(inputPassword))
+	if !comparePass {
+		return models.User{}, errors.New("incorrect password") // Return a specific error when password doesn't match
+	}
+	return user, nil
 }

@@ -18,6 +18,7 @@ func Router() *gin.Engine {
 
 	api := router.Group("/api/v1")
 	api.POST("/register", userHandler.RegisterUser)
+	api.POST("/login", userHandler.LoginUser)
 
 	return router
 }

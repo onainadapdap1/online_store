@@ -7,7 +7,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-
 func HassPass(pass string) (string, error) {
 	if len(pass) == 0 {
 		return "", errors.New("password should not be empty")
@@ -21,4 +20,21 @@ func HassPass(pass string) (string, error) {
 	}
 
 	return string(hashPassword), nil
+}
+
+// func CompareAndHashPassword(hassPass, inputPassword []byte) bool {
+// 	err := bcrypt.CompareHashAndPassword(hassPass, inputPassword)
+// 	if err != nil {
+// 		return false
+// 	}
+// 	return true
+// }
+
+func ComparePassword(hashPass, inputPasss []byte) bool {
+	err := bcrypt.CompareHashAndPassword(hashPass, inputPasss)
+	if err != nil {
+		return false
+	}
+
+	return true
 }
