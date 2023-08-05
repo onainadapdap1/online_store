@@ -59,6 +59,7 @@ func (h *userHandler) LoginUser(c *gin.Context) {
 	}
 
 	loggedInUser, err := h.service.LoginUser(input)
+	fmt.Println("error : ", err)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 

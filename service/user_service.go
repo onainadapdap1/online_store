@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/onainadapdap1/online_store/dtos"
 	"github.com/onainadapdap1/online_store/helpers"
@@ -60,6 +61,7 @@ func (s *userService) LoginUser(input dtos.LoginUserInput) (models.User, error) 
 
 func (s *userService) GetUserByID(id uint) (models.User, error) {
 	user, err := s.repo.GetUserByID(id)
+	fmt.Println("error : ", err)
 	if err != nil {
 		return user, err
 	}

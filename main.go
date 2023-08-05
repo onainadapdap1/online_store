@@ -8,10 +8,12 @@ import (
 	"github.com/onainadapdap1/online_store/driver"
 	"github.com/onainadapdap1/online_store/models"
 	"github.com/onainadapdap1/online_store/router"
+	"github.com/onainadapdap1/online_store/seeds"
 )
 
 func initTable(db *gorm.DB) {
 	db.Debug().AutoMigrate(&models.User{}).AddUniqueIndex("idx_users_email", "email")
+	db.Debug().AutoMigrate(&models.Category{})
 }
 
 func drop(db *gorm.DB) {
@@ -40,6 +42,9 @@ func main() {
 
 		if first == "create" {
 			create(db)
+		}else if first == "seed" {
+			seeds.Seed()
+			os.Exit(0)
 		} else if first == "migrate" {
 			initTable(db)
 		}
