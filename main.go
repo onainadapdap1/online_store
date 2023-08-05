@@ -14,11 +14,14 @@ import (
 func initTable(db *gorm.DB) {
 	db.Debug().AutoMigrate(&models.User{}).AddUniqueIndex("idx_users_email", "email")
 	db.Debug().AutoMigrate(&models.Category{})
+	db.Debug().AutoMigrate(&models.Product{})
 }
 
 func drop(db *gorm.DB) {
 	db.DropTableIfExists(
 		&models.User{},
+		&models.Category{},
+		&models.Product{},
 	)
 }
 

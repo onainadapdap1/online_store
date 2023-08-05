@@ -24,6 +24,10 @@ func Router() *gin.Engine {
 	categoryService := service.NewCategoryService(categoryRepo)
 	categoryHandler := handler.NewCategoryHandler(categoryService)
 
+	productRepo := repository.NewProductRepository(db)
+	productService := service.NewProductService(productRepo)
+	productHandler := handler.NewProductHandler(productService)
+
 	api := router.Group("/api/v1")
 	api.POST("/register", userHandler.RegisterUser)
 	api.POST("/login", userHandler.LoginUser)
@@ -40,6 +44,15 @@ func Router() *gin.Engine {
 		categoryRouter.Use(middlewares.Authentication())
 		categoryRouter.POST("category", userAdminAuthorization(userService), categoryHandler.CreateCategory)
 		categoryRouter.PUT("category/:slug", userAdminAuthorization(userService), categoryHandler.UpdateCategory)
+		categoryRouter.DELETE("category/:id", userAdminAuthorization(userService), categoryHandler.DeleteCategoryByID)
+	}
+	productRouter := api.Group("/products")
+	{
+		productRouter.GET("", productHandler.FindAllProduct)
+		productRouter.GET("product/:slug", productHandler.FindProductBySlug)
+		productRouter.Use(middlewares.Authentication())
+		productRouter.POST("product", userAdminAuthorization(userService), productHandler.CreateProduct)
+		productRouter.PUT("product/:slug", userAdminAuthorization(userService), productHandler.UpdateProduct)
 	}
 
 	return router

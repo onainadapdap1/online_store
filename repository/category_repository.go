@@ -15,6 +15,7 @@ type CategoryRepoInterface interface {
 	FindByCategoryID(categoryID uint) (models.Category, error)
 	FindAllCategory() ([]models.Category, error)
 	FindAllProductByCategory(categoryID uint) (models.Category, error)
+	DeleteCategory(category models.Category) error
 }
 
 type categoryRepository struct {
@@ -93,4 +94,16 @@ func (r *categoryRepository) FindAllCategory() ([]models.Category, error) {
 	return categories, nil
 }
 
+func (r *categoryRepository) DeleteCategory(category models.Category) error {
+	return r.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Where("category_id = ?", category.ID).Delete(&models.Product{}).Error; err != nil {
+			return err
+		}
 
+		if err := tx.Delete(category).Error; err != nil {
+			return err
+		}
+
+		return nil
+	})
+}

@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/onainadapdap1/online_store/dtos"
@@ -20,6 +21,7 @@ type CategoryHandlerInterface interface {
 	UpdateCategory(c *gin.Context)
 	FindBySlug(c *gin.Context)
 	FindAllCategory(c *gin.Context)
+	DeleteCategoryByID(c *gin.Context)
 }
 
 type categoryHandler struct {
@@ -228,5 +230,45 @@ func (h *categoryHandler) FindAllCategory(c *gin.Context) {
 	}
 
 	response := utils.APIResponse("list of categories", http.StatusOK, "success", dtos.FormatCategories(categories))
+	c.JSON(http.StatusOK, response)
+}
+
+
+func (h *categoryHandler) DeleteCategoryByID(c *gin.Context) {
+	// var input models.GetCategoryDetailInput
+
+	param := c.Param("id")
+	categoryID, err := strconv.Atoi(param)
+	if err != nil {
+		response := utils.APIResponse("failed to get detail input", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	category, err := h.service.FindByCategoryID(uint(categoryID))
+	if err != nil {
+		response := utils.APIResponse("failed to get detail category", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	if category.ImageURL != "" {
+		oldFilename := filepath.Base(category.ImageURL)
+		if err := os.Remove("static/images/categories/" + oldFilename); err != nil {
+			log.Printf("Failed to remove old filename: %v", err)
+			response := utils.APIResponse(fmt.Sprintf("Failed to remove old filename: %v", err), http.StatusInternalServerError, "error", nil)
+			c.JSON(http.StatusInternalServerError, response)
+			return
+		}
+	}
+
+	err = h.service.DeleteCategory(category)
+	if err != nil {
+		response := utils.APIResponse("failed to delete category", http.StatusInternalServerError, "error", nil)
+		c.JSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	response := utils.APIResponse("Success to delete category", http.StatusOK, "success", nil)
 	c.JSON(http.StatusOK, response)
 }

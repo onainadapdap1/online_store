@@ -6,14 +6,13 @@ import (
 	"github.com/onainadapdap1/online_store/repository"
 )
 
- 
-
 type CategoryServiceInterface interface {
 	CreateCategory(input dtos.CreateCategoryInput) (models.Category, error)
 	UpdateCategory(inputSlug dtos.GetCategoryDetailInput, inputData dtos.CreateCategoryInput) (models.Category, error)
 	FindBySlug(inputSlug dtos.GetCategoryDetailInput) (models.Category, error)
 	FindByCategoryID(categoryID uint) (models.Category, error)
 	FindAllCategory() ([]models.Category, error)
+	DeleteCategory(category models.Category) error
 }
 
 type categoryService struct {
@@ -85,3 +84,9 @@ func (s *categoryService) FindAllCategory() ([]models.Category, error) {
 	return categories, nil
 }
 
+func (s *categoryService) DeleteCategory(category models.Category) error {
+	if err := s.repo.DeleteCategory(category); err != nil {
+		return err
+	}
+	return nil
+}
