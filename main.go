@@ -15,6 +15,8 @@ func initTable(db *gorm.DB) {
 	db.Debug().AutoMigrate(&models.User{}).AddUniqueIndex("idx_users_email", "email")
 	db.Debug().AutoMigrate(&models.Category{})
 	db.Debug().AutoMigrate(&models.Product{})
+	db.Debug().AutoMigrate(&models.PaymentCategory{})
+	db.Debug().AutoMigrate(&models.PaymentMethod{})
 }
 
 func drop(db *gorm.DB) {
@@ -22,6 +24,8 @@ func drop(db *gorm.DB) {
 		&models.User{},
 		&models.Category{},
 		&models.Product{},
+		&models.PaymentCategory{},
+		&models.PaymentMethod{},
 	)
 }
 

@@ -28,6 +28,14 @@ func Router() *gin.Engine {
 	productService := service.NewProductService(productRepo)
 	productHandler := handler.NewProductHandler(productService)
 
+	paymentCategoryRepository := repository.NewPaymentCategoryRepository(db)
+	paymentCategoryService := service.NewPaymentCategoryService(paymentCategoryRepository)
+	paymentCategoryHandler := handler.NewPaymentCategoryHandler(paymentCategoryService)
+
+	paymentMethodRepository := repository.NewPaymentMethodRepository(db)
+	paymentMethodService := service.NewPaymentMethodService(paymentMethodRepository)
+	paymentMethodHandler := handler.NewPaymentMethodHandler(paymentMethodService, paymentCategoryService)
+
 	api := router.Group("/api/v1")
 	api.POST("/register", userHandler.RegisterUser)
 	api.POST("/login", userHandler.LoginUser)
@@ -53,6 +61,17 @@ func Router() *gin.Engine {
 		productRouter.Use(middlewares.Authentication())
 		productRouter.POST("product", userAdminAuthorization(userService), productHandler.CreateProduct)
 		productRouter.PUT("product/:slug", userAdminAuthorization(userService), productHandler.UpdateProduct)
+	}
+	paymentCategoryRouter := api.Group("/paymentcategories")
+	{
+		paymentCategoryRouter.GET("paymentcategory/:slug", paymentCategoryHandler.GetPaymentCategoryBySlug)
+		paymentCategoryRouter.Use(middlewares.Authentication())
+		paymentCategoryRouter.POST("", userAdminAuthorization(userService), paymentCategoryHandler.CreatePaymentCategory)
+	}
+	paymentMethodRouter := api.Group("/paymentmethods")
+	{
+		paymentMethodRouter.Use(middlewares.Authentication())
+		paymentMethodRouter.POST("", userAdminAuthorization(userService), paymentMethodHandler.CreatePaymentMethod)
 	}
 
 	return router
