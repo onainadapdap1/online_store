@@ -36,6 +36,10 @@ func Router() *gin.Engine {
 	paymentMethodService := service.NewPaymentMethodService(paymentMethodRepository)
 	paymentMethodHandler := handler.NewPaymentMethodHandler(paymentMethodService, paymentCategoryService)
 
+	cartRepository := repository.NewCartRepository(db)
+	cartService := service.NewCartService(cartRepository)
+	cartHandler := handler.NewCartHandler(cartService)
+
 	api := router.Group("/api/v1")
 	api.POST("/register", userHandler.RegisterUser)
 	api.POST("/login", userHandler.LoginUser)
@@ -73,6 +77,15 @@ func Router() *gin.Engine {
 		paymentMethodRouter.Use(middlewares.Authentication())
 		paymentMethodRouter.POST("", userAdminAuthorization(userService), paymentMethodHandler.CreatePaymentMethod)
 	}
+	cartRouter := api.Group("/carts")
+	{
+		cartRouter.Use(middlewares.Authentication())
+		cartRouter.POST("/cart", userAuthorization(userService), cartHandler.AddProductToCart)
+		cartRouter.PUT("/cart/:cart_id/productID/:item_id", userAuthorization(userService), cartHandler.UpdateCartItemQuantity)
+		cartRouter.DELETE("/cart/:cart_id/productID/:item_id", userAuthorization(userService), cartHandler.DeleteCartItem)
+		cartRouter.GET("", userAuthorization(userService), cartHandler.GetAllCartItems)
+	}
+
 
 	return router
 }
