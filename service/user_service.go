@@ -12,6 +12,7 @@ import (
 type UserServiceInterface interface {
 	RegisterUser(input dtos.RegisterUserInput) (models.User, error)
 	LoginUser(input dtos.LoginUserInput) (models.User, error)
+	GetUserByID(id uint) (models.User, error)
 }
 
 type userService struct {
@@ -54,5 +55,17 @@ func (s *userService) LoginUser(input dtos.LoginUserInput) (models.User, error) 
 	if !comparePass {
 		return models.User{}, errors.New("incorrect password") // Return a specific error when password doesn't match
 	}
+	return user, nil
+}
+
+func (s *userService) GetUserByID(id uint) (models.User, error) {
+	user, err := s.repo.GetUserByID(id)
+	if err != nil {
+		return user, err
+	}
+	if user.ID == 0 {
+		return user, errors.New("No user found with that id")
+	}
+
 	return user, nil
 }

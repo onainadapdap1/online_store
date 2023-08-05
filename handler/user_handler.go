@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/onainadapdap1/online_store/dtos"
 	"github.com/onainadapdap1/online_store/helpers"
+	"github.com/onainadapdap1/online_store/models"
 	"github.com/onainadapdap1/online_store/service"
 	"github.com/onainadapdap1/online_store/utils"
 )
@@ -14,6 +15,7 @@ import (
 type UserHandlerInterface interface {
 	RegisterUser(c *gin.Context)
 	LoginUser(c *gin.Context)
+	GetUserByID(c *gin.Context)
 }
 
 type userHandler struct {
@@ -74,5 +76,18 @@ func (h *userHandler) LoginUser(c *gin.Context) {
 
 	formatter := dtos.FormatUserLogin(loggedInUser, token)
 	response := utils.APIResponse("Successfully loggedin", http.StatusOK, "success", formatter)
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *userHandler) GetUserByID(c *gin.Context) {
+	userData := c.MustGet("currentuser").(models.User)
+	userID := userData.ID
+
+	user, _ := h.service.GetUserByID(userID)
+
+	formatter := dtos.FormatUserLogin(user, "")
+
+	response := utils.APIResponse("Successfully fetch user data", http.StatusOK, "success", formatter)
+
 	c.JSON(http.StatusOK, response)
 }

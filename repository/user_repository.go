@@ -10,6 +10,7 @@ import (
 type UserRepoInterface interface {
 	RegisterUser(user models.User) (models.User, error)
 	FindByEmail(email string) (models.User, error)
+	GetUserByID(id uint) (models.User, error)
 }
 
 type userRepository struct {
@@ -34,6 +35,15 @@ func (r *userRepository) FindByEmail(email string) (models.User, error) {
 	tx := r.db.Begin()
 	var user models.User
 	if err := tx.Debug().Where("email = ?", email).Find(&user).Error; err != nil {
+		return user, err
+	}
+	return user, nil
+}
+
+func (r *userRepository) GetUserByID(id uint) (models.User, error) {
+	tx := r.db.Begin()
+	user := models.User{}
+	if err := tx.Debug().Where("id = ?", id).First(&user).Error; err != nil {
 		return user, err
 	}
 	return user, nil
