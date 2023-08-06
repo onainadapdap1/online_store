@@ -5,9 +5,9 @@ import "github.com/onainadapdap1/online_store/models"
 type CreateCartItemInput struct {
 	ProductID uint `json:"product_id" binding:"required"`
 	Quantity  int  `json:"quantity" binding:"required"`
-	User      models.User
-	Product   models.Product
-	Cart      models.Cart
+	User      models.User `json:"-"`
+	Product   models.Product `json:"-"`
+	Cart      models.Cart `json:"-"`
 }
 
 // formatter create cart
@@ -19,8 +19,8 @@ type CartItemFormatter struct {
 	Quantity   int     `json:"quantity"`
 	Price      float64 `json:"price"`
 	TotalPrice float64 `json:"total_price"`
-	Product    CartProductFormatter
-	Cart       CartItemCartFormatter
+	Product    CartProductFormatter 
+	Cart       CartItemCartFormatter 
 }
 type CartItemCartFormatter struct {
 	ID     uint `json:"id"`

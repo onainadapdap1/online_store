@@ -13,16 +13,17 @@ func HassPass(pass string) (string, error) {
 	}
 
 	bytePassword := []byte(pass)
-	hashPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.MinCost)
+	hashPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
+	
 	if err != nil {
-		fmt.Printf("[UserController.SetPassword] Error when generate password with error: %v\n", err)
+		fmt.Printf("[UserHandler.SetPassword] Error when generate password with error: %v\n", err)
 		return "", nil
 	}
 
 	return string(hashPassword), nil
 }
 
-func CompareAndHashPassword(hassPass, inputPassword []byte) bool {
+func ComparePassword(hassPass, inputPassword []byte) bool {
 	err := bcrypt.CompareHashAndPassword(hassPass, inputPassword)
 	if err != nil {
 		return false

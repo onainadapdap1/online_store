@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -10,10 +11,38 @@ import (
 	"github.com/onainadapdap1/online_store/middlewares"
 	"github.com/onainadapdap1/online_store/repository"
 	"github.com/onainadapdap1/online_store/service"
+	"github.com/gin-contrib/cors"
+
+	_ "github.com/onainadapdap1/online_store/docs"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title 			Online Store API
+// @version         1.0
+// @description     This is service for my Online Store API assignment.
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name    API Support
+// @contact.url     https://onainadapdap1.github.io/
+// @contact.email   nadapdaponai21@gmail.com
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func Router() *gin.Engine {
 	router := gin.Default()
+	router.Use(cors.New(cors.Config{
+        AllowOrigins:     []string{"https://localhost:8080"},
+        AllowMethods:     []string{"PUT", "PATCH", "POST", "GET"},
+        AllowHeaders:     []string{"Origin"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
+        AllowOriginFunc: func(origin string) bool {
+            return origin == "https://github.com"
+        },
+        MaxAge: 12 * time.Hour,
+    }))
 	db, _ := driver.ConnectDB()
 	
 	userRepo := repository.NewUserRepository(db)
@@ -95,6 +124,7 @@ func Router() *gin.Engine {
 		orderRouter.POST("/", userAuthorization(userService), orderHandler.Checkout)
 	}
 
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	return router
 }
 

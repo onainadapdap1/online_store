@@ -25,6 +25,19 @@ func NewPaymentCategoryHandler(service service.PaymentCategoryServiceInterface) 
 	return &paymentCategoryHandler{service: service}
 }
 
+// CreatePaymentCategory godoc
+// @Summary Create Payment Category
+// @Description Create Payment Category
+// @Tags payment-categories
+// @Accept json
+// @Produce json
+// @Param input body dtos.CreatePaymentCategoryInput{} true "Payment category input"
+// @Success 200 {object} dtos.PaymentCategoryFormatter
+// @Failure 400 {object} utils.Response
+// @Failure 422 {object} utils.Response
+// @Failure 409 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/paymentcategories [post]
 func (h *paymentCategoryHandler) CreatePaymentCategory(c *gin.Context) {
 	var input dtos.CreatePaymentCategoryInput
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -62,16 +75,19 @@ func (h *paymentCategoryHandler) CreatePaymentCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// Get payment category by slug godoc
+// @Summary Get payment category by slug
+// @Description Get payment category by slug
+// @Tags payment-categories
+// @Produce json
+// @Param slug path string true "Get payment category by slug"
+// @Success 200 {object} dtos.PaymentCategoryFormatter
+// @Failure 400 {object} utils.Response
+// @Router /api/v1/paymentcategories/paymentcategory/{slug} [get]
 func (h *paymentCategoryHandler) GetPaymentCategoryBySlug(c *gin.Context) {
 	slug := c.Param("slug")
-	// var paymentCategory models.PaymentCategory
-	// if err := c.ShouldBindUri(&paymentCategory); err != nil {
-	// 	response := utils.APIResponse("failed to get request", http.StatusBadRequest, "error", nil)
-	// 	c.JSON(http.StatusBadRequest, response)
-	// 	return
-	// }
-	// pc := models.PaymentCategory{}
-	log.Println("slug : ", slug)
+
+	// log.Println("slug : ", slug)
 	paymentCategory, err := h.service.GetPaymentCategoryBySlug(slug)
 	if err != nil {
 		response := utils.APIResponse("failed to get detail payment category", http.StatusBadRequest, "error", nil)

@@ -32,6 +32,19 @@ func NewCategoryHandler(service service.CategoryServiceInterface) CategoryHandle
 	return &categoryHandler{service: service}
 }
 
+// Create Category godoc
+// @Summary Create Category
+// @Description Create a new Category with a given name, description and image file
+// @Tags categories
+// @Accept mpfd
+// @Produce json
+// @Param name formData string true "Name of the category"
+// @Param description formData string true "Description of the photo"
+// @Param image formData file true "Image file of the photo"
+// @Success 200 {object} dtos.CategoryFormatter
+// @Failure 400 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/categories/category [post]
 func (h *categoryHandler) CreateCategory(c *gin.Context) {
 	name := c.PostForm("name")
 	description := c.PostForm("description")
@@ -101,6 +114,22 @@ func (h *categoryHandler) CreateCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+
+// Update Category godoc
+// @Summary Update category
+// @Description Update category
+// @Tags categories
+// @Accept json,mpfd
+// @Produce json
+// @Param slug path string true "update category by slug"
+// @Param name formData string true "name of the category to be updated"
+// @Param description formData string true "description of the category to be updated"
+// @Param image formData file true "image file of the category to be updated"
+// @Success 200 {object} dtos.CategoryFormatter
+// @Failure 400 {object} utils.Response
+// @Failure 500 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/categories/category/{slug} [put]
 func (h *categoryHandler) UpdateCategory(c *gin.Context) {
 	var inputSlug dtos.GetCategoryDetailInput
 
@@ -201,6 +230,15 @@ func (h *categoryHandler) UpdateCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// Get Photo by slug godoc
+// @Summary Get one photo by slug
+// @Description Get one photo by slug
+// @Tags categories
+// @Produce json
+// @Param slug path string true "get photo by slug"
+// @Success 200 {object} dtos.CategoryFormatter{}
+// @Failure 400 {object} utils.Response
+// @Router /api/v1/categories/category/{slug} [get]
 func (h *categoryHandler) FindBySlug(c *gin.Context) {
 	var input dtos.GetCategoryDetailInput
 	// var category models.Category
@@ -221,6 +259,15 @@ func (h *categoryHandler) FindBySlug(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+
+// Get All categories godoc
+// @Summary Get all categories
+// @Description Get all categories
+// @Tags categories
+// @Produce json
+// @Success 200 {object} []dtos.CategoryDetailFormatter{}
+// @Failure 400 {object} utils.Response
+// @Router /api/v1/categories [get]
 func (h *categoryHandler) FindAllCategory(c *gin.Context) {
 	categories, err := h.service.FindAllCategory()
 	if err != nil {
@@ -233,7 +280,17 @@ func (h *categoryHandler) FindAllCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-
+// Delete category by ID godoc
+// @Summary Delete category by id
+// @Description Delete category by id
+// @Tags categories
+// @Produce json
+// @Param id path int true "delete category by id"
+// @Success 200 {object} utils.Response
+// @Failure 400 {object} utils.Response
+// @Failure 500 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/categories/category/{id} [delete]
 func (h *categoryHandler) DeleteCategoryByID(c *gin.Context) {
 	// var input models.GetCategoryDetailInput
 

@@ -31,6 +31,22 @@ func NewProductHandler(service service.ProductServiceInterface) ProductHandlerIn
 	return &productHandler{service: service}
 }
 
+// Create Product godoc
+// @Summary Create Product
+// @Description Create a new Product with a given name, description and image file
+// @Tags products
+// @Accept mpfd
+// @Produce json
+// @Param name formData string true "Name of the Product"
+// @Param description formData string true "Description of the product"
+// @Param price formData number true "price of the product"
+// @Param quantity formData int true "quantity of the product"
+// @Param category_id formData int true "category id of the product"
+// @Param image formData file true "Image file of the product"
+// @Success 200 {object} dtos.ProductFormatter
+// @Failure 400 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/products/product [post]
 func (h *productHandler) CreateProduct(c *gin.Context) {
 	// get data from request
 	name := c.PostForm("name")
@@ -133,6 +149,24 @@ func (h *productHandler) CreateProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// Update product godoc
+// @Summary Update product
+// @Description Update product
+// @Tags products
+// @Accept json,mpfd
+// @Produce json
+// @Param slug path string true "update category by slug"
+// @Param name formData string true "Name of the Product"
+// @Param description formData string true "Description of the product"
+// @Param price formData number true "price of the product"
+// @Param quantity formData int true "quantity of the product"
+// @Param category_id formData int true "category id of the product"
+// @Param image formData file true "Image file of the product"
+// @Success 200 {object} dtos.ProductFormatter
+// @Failure 400 {object} utils.Response
+// @Failure 500 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/products/product/{slug} [put]
 func (h *productHandler) UpdateProduct(c *gin.Context) {
 	var inputSlug dtos.GetProductDetailInput
 
@@ -253,6 +287,16 @@ func (h *productHandler) UpdateProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+
+// Get product by slug godoc
+// @Summary Get one product by slug
+// @Description Get one product by slug
+// @Tags products
+// @Produce json
+// @Param slug path string true "get product by slug"
+// @Success 200 {object} dtos.ProductDetailFormatter{}
+// @Failure 400 {object} utils.Response
+// @Router /api/v1/products/product/{slug} [get]
 func (h *productHandler) FindProductBySlug(c *gin.Context) {
 	var input dtos.GetProductDetailInput
 
@@ -274,6 +318,14 @@ func (h *productHandler) FindProductBySlug(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// Get All products godoc
+// @Summary Get all products
+// @Description Get all products
+// @Tags products
+// @Produce json
+// @Success 200 {object} []dtos.ProductDetailFormatter{}
+// @Failure 400 {object} utils.Response
+// @Router /api/v1/products [get]
 func (h *productHandler) FindAllProduct(c *gin.Context) {
 	products, err := h.service.FindAllProduct()
 	if err != nil {

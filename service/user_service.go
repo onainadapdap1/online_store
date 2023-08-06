@@ -25,10 +25,14 @@ func NewUserService(repo repository.UserRepoInterface) UserServiceInterface {
 }
 
 func (s *userService) RegisterUser(input dtos.RegisterUserInput) (models.User, error) {
+	hashedPassword, err := helpers.HassPass(input.Password)
+	if err != nil {
+		return models.User{}, err
+	}
 	user := models.User{
 		FullName: input.FullName,
 		Email:    input.Email,
-		Password: input.Password,
+		Password: hashedPassword,
 		Role:     "user",
 	}
 
@@ -52,14 +56,11 @@ func (s *userService) LoginUser(input dtos.LoginUserInput) (models.User, error) 
 		return user, errors.New("no user found on that email")
 	}
 
-	comparePass := helpers.CompareAndHashPassword([]byte(user.Password), []byte(inputPassword))
-	// if !comparePass {
-	// 	return models.User{}, errors.New("incorrect password") // Return a specific error when password doesn't match
-	// }
+	comparePass := helpers.ComparePassword([]byte(user.Password), []byte(inputPassword))
 	if !comparePass {
-		fmt.Printf("Stored Password: %s\n", user.Password)
-		hashedInputPassword, _ := helpers.HassPass(inputPassword)
-		fmt.Printf("Hashed Input Password: %s\n", hashedInputPassword)
+		// fmt.Printf("Stored Password: %s\n", user.Password)
+		// hashedInputPassword, _ := helpers.HassPass(inputPassword)
+		// fmt.Printf("Hashed Input Password: %s\n", hashedInputPassword)
 		return models.User{}, errors.New("invalid credentials") // Return a generic error message to prevent guessing valid passwords
 	}
 

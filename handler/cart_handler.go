@@ -27,6 +27,16 @@ func NewCartHandler(service service.CartServiceInterface) CartHandlerInterface {
 	return &cartHandler{service: service}
 }
 
+
+// Get All user item cart godoc
+// @Summary Get All user item cart
+// @Description Get All user item cart
+// @Tags carts
+// @Produce json
+// @Success 200 {object} []dtos.CartItemFormatter{}
+// @Failure 400 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/carts [get]
 func (h *cartHandler) GetAllUserCartItems(c *gin.Context) {
 	currentUser := c.MustGet("currentuser").(models.User)
 	userID := currentUser.ID
@@ -47,6 +57,19 @@ func (h *cartHandler) GetAllUserCartItems(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+
+// Add product to cart godoc
+// @Summary Add product to cart
+// @Description Add product to cart
+// @Tags carts
+// @Accept json
+// @Produce json
+// @Param input body dtos.CreateCartItemInput{} true "add product to cart input"
+// @Success 200 {object} dtos.CartItemFormatter
+// @Failure 400 {object} utils.Response
+// @Failure 422 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/carts/cart [post]
 func (h *cartHandler) AddProductToCart(c *gin.Context) {
 	// Get the current user ID from the request context
 	currentUser := c.MustGet("currentuser").(models.User)
@@ -102,7 +125,21 @@ func (h *cartHandler) AddProductToCart(c *gin.Context) {
 
 }
 
-// UpdateCartItemQuantity is a handler function to update the quantity of a product in a cart
+// UpdateCartItemQuantity godoc
+// @Summary Update cart item quantity
+// @Description Update cart item quantity based on action (add/remove) and quantity
+// @Tags carts
+// @Accept json
+// @Produce json
+// @Param cart_id path int true "Cart ID"
+// @Param item_id path int true "Cart Item ID"
+// @Param action formData string true "Action to perform (add/remove)"
+// @Param quantity formData int true "Quantity to add/remove"
+// @Success 200 {object} dtos.CartItemFormatter
+// @Failure 400 {object} utils.Response
+// @Failure 422 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/carts/cart/{cart_id}/productID/{item_id} [put]
 func (h *cartHandler) UpdateCartItemQuantity(c *gin.Context) {
 	// Parse cart and item IDs from the URL parameters
 	cartID, _ := strconv.Atoi(c.Param("cart_id"))
@@ -148,6 +185,19 @@ func (h *cartHandler) UpdateCartItemQuantity(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+
+// Delete item from cart godoc
+// @Summary Delete item from cart
+// @Description Delete item from cart
+// @Tags carts
+// @Produce json
+// @Param cart_id path int true "cart id"
+// @Param item_id path int true "item id"
+// @Success 200 {object} utils.Response
+// @Failure 400 {object} utils.Response
+// @Failure 500 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/carts/cart/{cart_id}/productID/{item_id} [delete]
 func (h *cartHandler) DeleteCartItem(c *gin.Context) {
 	// parse cart and item ids from the url parameters
 	cartID, _ := strconv.Atoi(c.Param("cart_id"))

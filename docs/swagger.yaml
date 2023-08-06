@@ -1,0 +1,1008 @@
+definitions:
+  dtos.CartItemCartFormatter:
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  dtos.CartItemFormatter:
+    properties:
+      cart:
+        $ref: '#/definitions/dtos.CartItemCartFormatter'
+      cart_id:
+        type: integer
+      id:
+        type: integer
+      price:
+        type: number
+      product:
+        $ref: '#/definitions/dtos.CartProductFormatter'
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+      total_price:
+        type: number
+      user_id:
+        type: integer
+    type: object
+  dtos.CartProductCategoryFormatter:
+    properties:
+      category_id:
+        type: integer
+      description:
+        type: string
+      product_name:
+        type: string
+      user:
+        $ref: '#/definitions/dtos.CartProductCategoryUserFormatter'
+    type: object
+  dtos.CartProductCategoryUserFormatter:
+    properties:
+      full_name:
+        type: string
+      role:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dtos.CartProductFormatter:
+    properties:
+      category:
+        $ref: '#/definitions/dtos.CartProductCategoryFormatter'
+      description:
+        type: string
+      price:
+        type: number
+      product_id:
+        type: integer
+      product_name:
+        type: string
+    type: object
+  dtos.CategoryDetailFormatter:
+    properties:
+      category_name:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      slug:
+        type: string
+      user:
+        $ref: '#/definitions/dtos.CategoryUserFormatter'
+      user_id:
+        type: integer
+    type: object
+  dtos.CategoryFormatter:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dtos.CategoryUserFormatter:
+    properties:
+      full_name:
+        type: string
+      role:
+        type: string
+    type: object
+  dtos.CreateCartItemInput:
+    properties:
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+    required:
+    - product_id
+    - quantity
+    type: object
+  dtos.CreatePaymentCategoryInput:
+    properties:
+      payment_category_name:
+        type: string
+    type: object
+  dtos.LoginUserInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  dtos.OrderFormatter:
+    properties:
+      id_order:
+        type: integer
+      payment_category:
+        $ref: '#/definitions/dtos.OrderPaymentCatFormatter'
+      payment_category_id:
+        type: integer
+      payment_method:
+        $ref: '#/definitions/dtos.OrderPaymentMetFormatter'
+      payment_method_id:
+        type: integer
+      proof_of_payment:
+        type: string
+      receiver_name:
+        type: string
+      status:
+        type: string
+      total_price:
+        type: number
+      user:
+        $ref: '#/definitions/dtos.OrderUserFormatter'
+      user_id:
+        type: integer
+    type: object
+  dtos.OrderPaymentCatFormatter:
+    properties:
+      payment_category_id:
+        type: integer
+      payment_category_name:
+        type: string
+    type: object
+  dtos.OrderPaymentMetFormatter:
+    properties:
+      payment_method_id:
+        type: integer
+      payment_method_name:
+        type: string
+    type: object
+  dtos.OrderUserFormatter:
+    properties:
+      full_name:
+        type: string
+    type: object
+  dtos.PaymentCategoryFormatter:
+    properties:
+      id:
+        type: integer
+      payment_category_name:
+        type: string
+      slug:
+        type: string
+      user:
+        $ref: '#/definitions/dtos.PaymentCategoryUserFormatter'
+      user_id:
+        type: integer
+    type: object
+  dtos.PaymentCategoryUserFormatter:
+    properties:
+      full_name:
+        type: string
+      role:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dtos.PaymentMethodCategoryFormatter:
+    properties:
+      id:
+        type: integer
+      payment_category_name:
+        type: string
+    type: object
+  dtos.PaymentMethodFormatter:
+    properties:
+      id:
+        type: integer
+      method_name:
+        type: string
+      number:
+        type: string
+      owner_name:
+        type: string
+      payment_category_id:
+        type: integer
+      payment_category_name:
+        type: string
+      paymentCategory:
+        $ref: '#/definitions/dtos.PaymentMethodCategoryFormatter'
+      user:
+        $ref: '#/definitions/dtos.PaymentMethodUserFormatter'
+      user_id:
+        type: integer
+    type: object
+  dtos.PaymentMethodUserFormatter:
+    properties:
+      full_name:
+        type: string
+      role:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dtos.ProductCategoryFormatter:
+    properties:
+      category_id:
+        type: integer
+      description:
+        type: string
+      product_name:
+        type: string
+    type: object
+  dtos.ProductDetailFormatter:
+    properties:
+      category:
+        $ref: '#/definitions/dtos.ProductCategoryFormatter'
+      category_id:
+        type: integer
+      description:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      price:
+        type: number
+      product_name:
+        type: string
+      quantity:
+        type: integer
+      slug:
+        type: string
+      user:
+        $ref: '#/definitions/dtos.ProductUserFormatter'
+      user_id:
+        type: integer
+    type: object
+  dtos.ProductFormatter:
+    properties:
+      category_id:
+        type: integer
+      description:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      price:
+        type: number
+      product_name:
+        type: string
+      quantity:
+        type: integer
+      slug:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dtos.ProductUserFormatter:
+    properties:
+      full_name:
+        type: string
+      role:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dtos.RegisterUserInput:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      password:
+        type: string
+    type: object
+  dtos.UserRegisterFormatter:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      role:
+        type: string
+    type: object
+  utils.Meta:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  utils.Response:
+    properties:
+      data: {}
+      meta:
+        $ref: '#/definitions/utils.Meta'
+    type: object
+info:
+  contact:
+    email: nadapdaponai21@gmail.com
+    name: API Support
+    url: https://onainadapdap1.github.io/
+  description: This is service for my Online Store API assignment.
+  termsOfService: http://swagger.io/terms/
+  title: Online Store API
+  version: "1.0"
+paths:
+  /api/v1/carts:
+    get:
+      description: Get All user item cart
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dtos.CartItemFormatter'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Get All user item cart
+      tags:
+      - carts
+  /api/v1/carts/cart:
+    post:
+      consumes:
+      - application/json
+      description: Add product to cart
+      parameters:
+      - description: add product to cart input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateCartItemInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CartItemFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Add product to cart
+      tags:
+      - carts
+  /api/v1/carts/cart/{cart_id}/productID/{item_id}:
+    delete:
+      description: Delete item from cart
+      parameters:
+      - description: cart id
+        in: path
+        name: cart_id
+        required: true
+        type: integer
+      - description: item id
+        in: path
+        name: item_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Delete item from cart
+      tags:
+      - carts
+    put:
+      consumes:
+      - application/json
+      description: Update cart item quantity based on action (add/remove) and quantity
+      parameters:
+      - description: Cart ID
+        in: path
+        name: cart_id
+        required: true
+        type: integer
+      - description: Cart Item ID
+        in: path
+        name: item_id
+        required: true
+        type: integer
+      - description: Action to perform (add/remove)
+        in: formData
+        name: action
+        required: true
+        type: string
+      - description: Quantity to add/remove
+        in: formData
+        name: quantity
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CartItemFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Update cart item quantity
+      tags:
+      - carts
+  /api/v1/categories:
+    get:
+      description: Get all categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dtos.CategoryDetailFormatter'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get all categories
+      tags:
+      - categories
+  /api/v1/categories/category:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new Category with a given name, description and image
+        file
+      parameters:
+      - description: Name of the category
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Description of the photo
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: Image file of the photo
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CategoryFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Create Category
+      tags:
+      - categories
+  /api/v1/categories/category/{id}:
+    delete:
+      description: Delete category by id
+      parameters:
+      - description: delete category by id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Delete category by id
+      tags:
+      - categories
+  /api/v1/categories/category/{slug}:
+    get:
+      description: Get one photo by slug
+      parameters:
+      - description: get photo by slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CategoryFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get one photo by slug
+      tags:
+      - categories
+    put:
+      consumes:
+      - application/json
+      - multipart/form-data
+      description: Update category
+      parameters:
+      - description: update category by slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: name of the category to be updated
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: description of the category to be updated
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: image file of the category to be updated
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CategoryFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Update category
+      tags:
+      - categories
+  /api/v1/login:
+    post:
+      consumes:
+      - application/json
+      description: User login with email and password
+      parameters:
+      - description: Login user input
+        in: body
+        name: dtos.LoginUserInput
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.LoginUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.UserRegisterFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Login user
+      tags:
+      - users
+  /api/v1/orders:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create order
+      parameters:
+      - description: payment category id
+        in: formData
+        name: payment_category_id
+        required: true
+        type: integer
+      - description: payment method id
+        in: formData
+        name: payment_method_id
+        required: true
+        type: integer
+      - description: receiver name
+        in: formData
+        name: receiver_name
+        required: true
+        type: string
+      - description: Image file of the proof of payment
+        in: formData
+        name: proof_of_payment
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.OrderFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Create order
+      tags:
+      - orders
+  /api/v1/paymentcategories:
+    post:
+      consumes:
+      - application/json
+      description: Create Payment Category
+      parameters:
+      - description: Payment category input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreatePaymentCategoryInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.PaymentCategoryFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Create Payment Category
+      tags:
+      - payment-categories
+  /api/v1/paymentcategories/paymentcategory/{slug}:
+    get:
+      description: Get payment category by slug
+      parameters:
+      - description: Get payment category by slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.PaymentCategoryFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get payment category by slug
+      tags:
+      - payment-categories
+  /api/v1/paymentmethods:
+    post:
+      description: Create a new payment method with given data category payment id,
+        method name, owner name and and number
+      parameters:
+      - description: category payment id of the payment method
+        in: formData
+        name: category_payment_id
+        required: true
+        type: integer
+      - description: method name of the payment method
+        in: formData
+        name: method_name
+        required: true
+        type: string
+      - description: owner name of the payment method
+        in: formData
+        name: owner_name
+        required: true
+        type: string
+      - description: number of the payment method
+        in: formData
+        name: number
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.PaymentMethodFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Create payment method
+      tags:
+      - paymentmethods
+  /api/v1/products:
+    get:
+      description: Get all products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dtos.ProductDetailFormatter'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get all products
+      tags:
+      - products
+  /api/v1/products/product:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new Product with a given name, description and image file
+      parameters:
+      - description: Name of the Product
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Description of the product
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: price of the product
+        in: formData
+        name: price
+        required: true
+        type: number
+      - description: quantity of the product
+        in: formData
+        name: quantity
+        required: true
+        type: integer
+      - description: category id of the product
+        in: formData
+        name: category_id
+        required: true
+        type: integer
+      - description: Image file of the product
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ProductFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Create Product
+      tags:
+      - products
+  /api/v1/products/product/{slug}:
+    get:
+      description: Get one product by slug
+      parameters:
+      - description: get product by slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ProductDetailFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get one product by slug
+      tags:
+      - products
+    put:
+      consumes:
+      - application/json
+      - multipart/form-data
+      description: Update product
+      parameters:
+      - description: update category by slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Name of the Product
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Description of the product
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: price of the product
+        in: formData
+        name: price
+        required: true
+        type: number
+      - description: quantity of the product
+        in: formData
+        name: quantity
+        required: true
+        type: integer
+      - description: category id of the product
+        in: formData
+        name: category_id
+        required: true
+        type: integer
+      - description: Image file of the product
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ProductFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Update product
+      tags:
+      - products
+  /api/v1/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user
+      parameters:
+      - description: register user
+        in: body
+        name: dtos.RegisterUserInput
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.RegisterUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.UserRegisterFormatter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Register a new user
+      tags:
+      - users
+  /api/v1/users/fetch:
+    get:
+      description: Fetch user login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+      security:
+      - BearerAuth: []
+      summary: Fetch user login
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

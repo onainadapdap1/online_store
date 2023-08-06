@@ -28,7 +28,21 @@ func NewOrderHandler(service service.OrderServiceInterface) *orderHandler {
 	return &orderHandler{service: service}
 }
 
-// POST endpoint untuk melakukan checkout dan pembayaran
+// Create order godoc
+// @Summary Create order
+// @Description Create order
+// @Tags orders
+// @Accept mpfd
+// @Produce json
+// @Param payment_category_id formData int true "payment category id"
+// @Param payment_method_id formData int true "payment method id"
+// @Param receiver_name formData string true "receiver name"
+// @Param proof_of_payment formData file true "Image file of the proof of payment"
+// @Success 200 {object} dtos.OrderFormatter
+// @Failure 400 {object} utils.Response
+// @Failure 500 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/orders [post]
 func (h *orderHandler) Checkout(c *gin.Context) {
 	currentUser := c.MustGet("currentuser").(models.User)
 	userID := currentUser.ID

@@ -28,6 +28,20 @@ func NewPaymentMethodHandler(service service.PaymentMethodServiceInterface, paym
 	}
 }
 
+
+// Create payment method godoc
+// @Summary Create payment method
+// @Description Create a new payment method with given data category payment id, method name, owner name and and number
+// @Tags paymentmethods
+// @Produce json
+// @Param category_payment_id formData int true "category payment id of the payment method"
+// @Param method_name formData string true "method name of the payment method"
+// @Param owner_name formData string true "owner name of the payment method"
+// @Param number formData int true "number of the payment method"
+// @Success 200 {object} dtos.PaymentMethodFormatter
+// @Failure 400 {object} utils.Response
+// @Security BearerAuth
+// @Router /api/v1/paymentmethods [post]
 func (h *paymentMethodHandler) CreatePaymentMethod(c *gin.Context) {
 	categoryPaymentID, err := strconv.Atoi(c.PostForm("category_payment_id"))
 	if err != nil {
