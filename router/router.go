@@ -87,7 +87,7 @@ func Router() *gin.Engine {
 		cartRouter.POST("/cart", userAuthorization(userService), cartHandler.AddProductToCart)
 		cartRouter.PUT("/cart/:cart_id/productID/:item_id", userAuthorization(userService), cartHandler.UpdateCartItemQuantity)
 		cartRouter.DELETE("/cart/:cart_id/productID/:item_id", userAuthorization(userService), cartHandler.DeleteCartItem)
-		cartRouter.GET("", userAuthorization(userService), cartHandler.GetAllCartItems)
+		cartRouter.GET("", userAuthorization(userService), cartHandler.GetAllUserCartItems)
 	}
 	orderRouter := api.Group("/orders")
 	{

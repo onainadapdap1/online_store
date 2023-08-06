@@ -15,7 +15,8 @@ type CartRepositoryInterface interface {
 	UpdateCartItem(cartItem models.CartItem) (models.CartItem, error)
 	FindItem(cartID uint, productID uint) (models.CartItem, error)
 	DeleteItem(item models.CartItem) error
-	GetAllCartItems() ([]models.CartItem, error)
+	GetCartByUserID(userID uint) (models.Cart, error)
+	GetAllUserCartItems(userCartID uint) ([]models.CartItem, error)
 }
 
 type cartRepository struct {
@@ -25,12 +26,19 @@ type cartRepository struct {
 func NewCartRepository(db *gorm.DB) CartRepositoryInterface {
 	return &cartRepository{db: db}
 }
-
-func (r *cartRepository) GetAllCartItems() ([]models.CartItem, error) {
+func (r *cartRepository) GetCartByUserID(userID uint) (models.Cart, error) {
+	tx := r.db.Begin()
+	userCart := models.Cart{}
+	if err := tx.Debug().Where("user_id = ?", userID).First(&userCart).Error; err != nil {
+		return userCart, err
+	}
+	return userCart, nil
+}
+func (r *cartRepository) GetAllUserCartItems(userCartID uint) ([]models.CartItem, error) {
 	tx := r.db.Begin()
 	cartItems := []models.CartItem{}
-	if err := tx.Debug().Preload("Product").Preload("Product.Category").Preload("Product.User").Preload("Cart").Find(&cartItems).Error; err != nil {
-		return  cartItems, err
+	if err := tx.Debug().Preload("Product").Preload("Product.Category").Preload("Product.User").Preload("Cart").Where("cart_id = ?", userCartID).Find(&cartItems).Error; err != nil {
+		return cartItems, err
 	}
 	return cartItems, nil
 }

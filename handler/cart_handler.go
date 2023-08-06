@@ -16,7 +16,7 @@ type CartHandlerInterface interface {
 	DeleteCartItem(c *gin.Context)
 	AddProductToCart(c *gin.Context)
 	UpdateCartItemQuantity(c *gin.Context)
-	GetAllCartItems(c *gin.Context) 
+	GetAllUserCartItems(c *gin.Context)
 }
 
 type cartHandler struct {
@@ -27,11 +27,18 @@ func NewCartHandler(service service.CartServiceInterface) CartHandlerInterface {
 	return &cartHandler{service: service}
 }
 
-func (h *cartHandler) GetAllCartItems(c *gin.Context) {
-	// products, err := h.service.FindAllProduct()
-	cartItems, err := h.service.GetAllCartItems()
+func (h *cartHandler) GetAllUserCartItems(c *gin.Context) {
+	currentUser := c.MustGet("currentuser").(models.User)
+	userID := currentUser.ID
+	userCart, err := h.service.GetCartByUserID(userID)
 	if err != nil {
-		response := utils.APIResponse("failed to get all cart items", http.StatusBadRequest, "error", nil)
+		response := utils.APIResponse("failed to get user cart", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	cartItems, err := h.service.GetAllUserCartItems(userCart.ID)
+	if err != nil {
+		response := utils.APIResponse("failed to get all user's cart items", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}

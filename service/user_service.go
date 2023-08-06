@@ -52,10 +52,17 @@ func (s *userService) LoginUser(input dtos.LoginUserInput) (models.User, error) 
 		return user, errors.New("no user found on that email")
 	}
 
-	comparePass := helpers.ComparePassword([]byte(user.Password), []byte(inputPassword))
+	comparePass := helpers.CompareAndHashPassword([]byte(user.Password), []byte(inputPassword))
+	// if !comparePass {
+	// 	return models.User{}, errors.New("incorrect password") // Return a specific error when password doesn't match
+	// }
 	if !comparePass {
-		return models.User{}, errors.New("incorrect password") // Return a specific error when password doesn't match
+		fmt.Printf("Stored Password: %s\n", user.Password)
+		hashedInputPassword, _ := helpers.HassPass(inputPassword)
+		fmt.Printf("Hashed Input Password: %s\n", hashedInputPassword)
+		return models.User{}, errors.New("invalid credentials") // Return a generic error message to prevent guessing valid passwords
 	}
+
 	return user, nil
 }
 

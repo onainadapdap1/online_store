@@ -15,7 +15,8 @@ type CartServiceInterface interface {
 	FindItem(cartID uint, productID uint) (models.CartItem, error)
 	UpdateCartItem(cartItem models.CartItem) (models.CartItem, error)
 	DeleteItem(item models.CartItem) error
-	GetAllCartItems() ([]models.CartItem, error)
+	GetAllUserCartItems(userCartID uint) ([]models.CartItem, error)
+	GetCartByUserID(userID uint) (models.Cart, error)
 }
 
 type cartService struct {
@@ -25,8 +26,15 @@ type cartService struct {
 func NewCartService(repo repository.CartRepositoryInterface) CartServiceInterface {
 	return &cartService{repo: repo}
 }
-func (s *cartService) GetAllCartItems() ([]models.CartItem, error) {
-	cartItems, err := s.repo.GetAllCartItems()
+func (s *cartService) GetCartByUserID(userID uint) (models.Cart, error) {
+	userCart, err := s.repo.GetCartByUserID(userID)
+	if err != nil {
+		return userCart, err
+	}
+	return userCart, nil
+}
+func (s *cartService) GetAllUserCartItems(userCartID uint) ([]models.CartItem, error) {
+	cartItems, err := s.repo.GetAllUserCartItems(userCartID)
 	if err != nil {
 		return cartItems, err
 	}

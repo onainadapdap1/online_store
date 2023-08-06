@@ -22,19 +22,15 @@ func HassPass(pass string) (string, error) {
 	return string(hashPassword), nil
 }
 
-// func CompareAndHashPassword(hassPass, inputPassword []byte) bool {
-// 	err := bcrypt.CompareHashAndPassword(hassPass, inputPassword)
-// 	if err != nil {
-// 		return false
-// 	}
-// 	return true
-// }
-
-func ComparePassword(hashPass, inputPasss []byte) bool {
-	err := bcrypt.CompareHashAndPassword(hashPass, inputPasss)
+func CompareAndHashPassword(hassPass, inputPassword []byte) bool {
+	err := bcrypt.CompareHashAndPassword(hassPass, inputPassword)
 	if err != nil {
 		return false
 	}
-
 	return true
 }
+
+// func ComparePassword(hashPass, inputPasss []byte) bool {
+// 	err := bcrypt.CompareHashAndPassword(hashPass, inputPasss)
+// 	return err == nil
+// }

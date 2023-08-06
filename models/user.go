@@ -15,7 +15,6 @@ type User struct {
 	Email          string `gorm:"not null;uniqueIndex" json:"email" form:"email" valid:"required~Your Email is required,email~Invalid Email format"`
 	Password       string `gorm:"not null" json:"password" form:"password" valid:"required~Your Password is required,minstringlength(6)~Your Password must be at least 6 characters"`
 	Role           string `json:"role"`
-	AvatarFileName string
 }
 
 // naming convention
