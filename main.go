@@ -19,6 +19,9 @@ func initTable(db *gorm.DB) {
 	db.Debug().AutoMigrate(&models.PaymentMethod{})
 	db.Debug().AutoMigrate(&models.Cart{})
 	db.Debug().AutoMigrate(&models.CartItem{})
+	db.Debug().AutoMigrate(&models.Order{})
+	db.Debug().AutoMigrate(&models.OrderItem{})
+
 }
 
 func drop(db *gorm.DB) {
@@ -30,6 +33,8 @@ func drop(db *gorm.DB) {
 		&models.PaymentMethod{},
 		&models.Cart{},
 		&models.CartItem{},
+		&models.Order{},
+		&models.OrderItem{},
 	)
 }
 

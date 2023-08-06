@@ -40,6 +40,10 @@ func Router() *gin.Engine {
 	cartService := service.NewCartService(cartRepository)
 	cartHandler := handler.NewCartHandler(cartService)
 
+	orderRepository := repository.NewOrderRepository(db)
+	orderService := service.NewOrderService(orderRepository)
+	orderHandler := handler.NewOrderHandler(orderService)
+
 	api := router.Group("/api/v1")
 	api.POST("/register", userHandler.RegisterUser)
 	api.POST("/login", userHandler.LoginUser)
@@ -85,7 +89,11 @@ func Router() *gin.Engine {
 		cartRouter.DELETE("/cart/:cart_id/productID/:item_id", userAuthorization(userService), cartHandler.DeleteCartItem)
 		cartRouter.GET("", userAuthorization(userService), cartHandler.GetAllCartItems)
 	}
-
+	orderRouter := api.Group("/orders")
+	{
+		orderRouter.Use(middlewares.Authentication())
+		orderRouter.POST("/", userAuthorization(userService), orderHandler.Checkout)
+	}
 
 	return router
 }
