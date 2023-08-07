@@ -1,0 +1,25 @@
+version: '3'
+services:
+  todo-online-store-postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=my-secret-pw-23
+      - POSTGRES_DB=db_online_store
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  todo-online-store-backend:
+    build: .
+    ports:
+      - 8081:8081
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=my-secret-pw-23
+      - DB_SCHEMA=db_online_store
+      - DB_HOST=todo-online-store-postgres
+      - DB_PORT=5432
+    depends_on:
+      - todo-online-store-postgres

@@ -27,3 +27,6 @@ Developing an online store application using Go Gin-Gonic, Gorm, and Postgres. S
 
 - Endpoints:
     - [Url Postman Link](https://documenter.getpostman.com/view/20268960/2s9XxyStk8)
+
+- Docker Registry:
+    -[Url Docker Registry](https://hub.docker.com/r/pegasus09/todo-online-store-backend)
