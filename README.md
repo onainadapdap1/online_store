@@ -13,6 +13,7 @@ Developing an online store application using Go Gin-Gonic, Gorm, and Postgres. S
 2. [PostgreSql](https://www.postgresql.org/) (Database)
 3. [GORM](https://v1.gorm.io/) (ORM)
 4. [JWT](https://github.com/golang-jwt/jwt) (Authentication & Authorization)
+5. [Swagger](https://github.com/swaggo/gin-swagger) (Rest API Documentation)
 
 <br>
 
