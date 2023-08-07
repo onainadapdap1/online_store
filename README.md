@@ -1,0 +1,3 @@
+# Online Store API
+## `Overview`
+Developing an online store application using Go Gin-Gonic, Gorm, and Postgres. Successfully implemented an authentication system for users and token generation using JWT. Built CRUD operations for product and product categories including the ability to upload product images, easy management of products, cart operation such as adding product to cart, delete item from cart, get user's all cart item, update quantity of the cart item and create order. 
